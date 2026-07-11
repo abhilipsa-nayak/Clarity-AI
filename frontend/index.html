@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clarity AI — Think. Reflect. Decide.</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Clarity AI is a premium thinking coach and decision-making partner that guides you through structured reflection to solve problems.">
+  <meta name="author" content="Clarity AI Team">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#FFFFFF">
+
+  <!-- Inter Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons (CDN) for premium modern icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Premium Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="dark-mode">
+  <script>
+    if (window.location.protocol === 'file:') {
+      document.write(\`
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; text-align: center; max-width: 600px; margin: 80px auto; border: 1px solid #EF4444; border-radius: 12px; background-color: #FEF2F2; color: #991B1B;">
+          <h2 style="margin-bottom: 12px; font-weight: 600;">Direct File Open Detected</h2>
+          <p style="line-height: 1.6; margin-bottom: 20px; color: #7F1D1D;">
+            Modern browsers block JavaScript ES Modules when opening HTML files directly from your hard drive (using the <code>file://</code> protocol).
+          </p>
+          <div style="background: white; border: 1px solid #FCA5A5; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 13px; text-align: left; margin-bottom: 20px; color: #374151;">
+            <strong>To run Clarity AI correctly:</strong><br>
+            1. Open a terminal in the project folder.<br>
+            2. Run: <code style="background: #F3F4F6; padding: 2px 6px; border-radius: 4px; font-weight: bold;">uvicorn backend.main:app --reload</code><br>
+            3. Open: <a href="http://127.0.0.1:8000" target="_blank" style="color: #007AFF; font-weight: bold; text-decoration: underline;">http://127.0.0.1:8000</a>
+          </div>
+          <p style="font-size: 12px; color: #B91C1C;">Please start the FastAPI server to mount the static assets and router endpoints.</p>
+        </div>
+      \`);
+    }
+  </script>
+
+  <!-- Single Page App Target Container -->
+  <div id="app-container"></div>
+
+  <!-- Global Modal Wrapper -->
+  <div id="modal-container" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-box scale-in">
+      <button id="modal-close" class="modal-close-btn" aria-label="Close modal">
+        <i data-lucide="x"></i>
+      </button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Global Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Core SPA Controller -->
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
