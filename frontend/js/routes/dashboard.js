@@ -92,6 +92,25 @@ export function initDashboard() {
     });
   }
 
+  // Dynamic Button text and icon based on selected mode
+  const modeSelector = document.getElementById('dashboard-mode-selector');
+  const updateDashboardButton = () => {
+    if (!btn || !modeSelector) return;
+    const mode = modeSelector.value;
+    if (mode === 'focus') {
+      btn.innerHTML = `<span>Start Focusing</span><i data-lucide="target" style="width: 16px; height: 16px;"></i>`;
+    } else if (mode === 'action') {
+      btn.innerHTML = `<span>Take Action</span><i data-lucide="zap" style="width: 16px; height: 16px;"></i>`;
+    } else {
+      btn.innerHTML = `<span>Start Reflecting</span><i data-lucide="compass" style="width: 16px; height: 16px;"></i>`;
+    }
+    lucide.createIcons();
+  };
+
+  if (modeSelector && btn) {
+    modeSelector.addEventListener('change', updateDashboardButton);
+  }
+
   // Handle Starter Button click
   if (btn && input) {
     btn.addEventListener('click', async () => {
@@ -101,11 +120,9 @@ export function initDashboard() {
         return;
       }
 
-      const modeSelector = document.getElementById('dashboard-mode-selector');
       const mode = modeSelector ? modeSelector.value : 'reflect';
 
       btn.disabled = true;
-      const originalContent = btn.innerHTML;
       btn.innerHTML = `<span>Structuring Session...</span>`;
 
       try {
@@ -121,7 +138,7 @@ export function initDashboard() {
       } catch (err) {
         showToast(err.message, 'error');
         btn.disabled = false;
-        btn.innerHTML = originalContent;
+        updateDashboardButton();
       }
     });
   }
