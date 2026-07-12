@@ -43,6 +43,13 @@ export function renderChatView() {
       <!-- Chat input field -->
       <footer class="chat-input-container">
         <form class="chat-input-wrapper" id="chat-input-form">
+          <div class="chat-mode-select-container">
+            <select id="chat-mode-selector" class="chat-mode-dropdown" aria-label="Choose chat response mode">
+              <option value="reflect">💬 Reflect</option>
+              <option value="focus">🎯 Focus</option>
+              <option value="action">⚡ Action</option>
+            </select>
+          </div>
           <textarea class="chat-input" id="chat-input-field" placeholder="Share your reflections here..." required></textarea>
           <button type="submit" class="btn btn--primary" id="chat-send-btn" style="padding: 10px; border-radius: var(--radius-sm);" aria-label="Send message">
             <i data-lucide="send" style="width: 16px; height: 16px;"></i>
@@ -230,9 +237,12 @@ export async function initChatView(convId) {
       input.disabled = true;
       sendBtn.disabled = true;
       const typingIndicator = showTypingIndicator(board);
+      
+      const modeSelector = document.getElementById('chat-mode-selector');
+      const mode = modeSelector ? modeSelector.value : 'reflect';
 
       try {
-        const result = await sendMessage(convId, content);
+        const result = await sendMessage(convId, content, mode);
         
         // Remove typing indicator & append coach reply
         hideTypingIndicator(board);

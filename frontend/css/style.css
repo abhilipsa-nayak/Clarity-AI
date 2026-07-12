@@ -1148,6 +1148,36 @@ body.dark-mode .navbar {
   box-shadow: var(--shadow-md);
 }
 
+.chat-mode-select-container {
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--border-color);
+  padding-right: 8px;
+  margin-right: 8px;
+}
+
+.chat-mode-dropdown {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.chat-mode-dropdown:hover, .chat-mode-dropdown:focus {
+  background-color: var(--hover-bg);
+}
+
+.chat-mode-dropdown option {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
 .chat-input {
   flex: 1;
   min-height: 24px;

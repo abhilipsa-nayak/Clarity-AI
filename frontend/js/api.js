@@ -100,10 +100,10 @@ export async function getMessages(conversationId) {
   return await request(`/api/conversations/${conversationId}/messages`);
 }
 
-export async function sendMessage(conversationId, content) {
+export async function sendMessage(conversationId, content, mode = 'reflect') {
   return await request(`/api/conversations/${conversationId}/messages`, {
     method: 'POST',
-    body: JSON.stringify({ content })
+    body: JSON.stringify({ content, mode })
   });
 }
 
