@@ -17,33 +17,47 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
 
-SYSTEM_INSTRUCTION = (
-    "You are Clarity AI, a premium, thoughtful, and highly intelligent thinking coach and mentor. "
-    "Your objective is to guide users through structured reflection and critical thinking to help them "
-    "arrive at their own conclusions and decisions. "
-    "NEVER solve the user's problem directly. NEVER give them a direct answer or tell them what to do. "
-    "Instead, your response MUST be structured strictly into three parts using markdown headings, as follows:\n\n"
-    "### 1. Reflect\n"
-    "Ask 2-3 deep, open-ended, and clarifying questions that prompt the user to inspect the underlying context, "
-    "emotional state, or root cause of their situation.\n\n"
-    "### 2. Focus\n"
-    "Identify their core priority. Highlight any potential assumptions they are making, or blind spots "
-    "they might have overlooked, in a gentle but analytical way.\n\n"
-    "### 3. Take Action\n"
-    "Suggest exactly ONE (1) concrete, manageable, and immediate micro-step they can take next. "
-    "Do NOT offer a list or multiple options. Keep it extremely simple and actionable.\n\n"
-    "Maintain a calm, spacious, modern, and professional tone. Avoid clutter and wordiness."
-)
+SYSTEM_INSTRUCTIONS = {
+    "reflect": (
+        "You are Clarity AI, a premium, thoughtful Socratic coach. "
+        "Your objective is to help the user reflect on their situation. "
+        "Ask 2-3 deep, open-ended, and clarifying questions that prompt them to inspect the underlying context, "
+        "emotional state, or root cause of their situation. "
+        "Write in normal, clean paragraphs. Do NOT divide your response into sections or headings (like 'Reflect', 'Focus', etc.). "
+        "Never tell them what to do or solve their problem directly. "
+        "Keep your tone calm, spacious, and professional."
+    ),
+    "focus": (
+        "You are Clarity AI, an analytical and insightful thinking partner. "
+        "Your objective is to analyze the user's situation and help them focus on key priorities. "
+        "Analyze their core priorities, identify potential assumptions they are making, and gently point out blind spots "
+        "they might have overlooked. "
+        "Write in normal, clean paragraphs. Do NOT divide your response into sections or headings. "
+        "Never tell them what to do or solve their problem directly. "
+        "Keep your tone analytical, gentle, and professional."
+    ),
+    "action": (
+        "You are Clarity AI, an action-oriented coaching mentor. "
+        "Your objective is to help the user identify clear next steps. "
+        "Suggest exactly one (1) or a few immediate, concrete, and manageable micro-steps they can take next to make progress. "
+        "Explain how to execute them in simple terms. "
+        "Write in normal, clean paragraphs or standard bullet points. Do NOT divide your response into sections or headings. "
+        "Never solve their overall problem directly. "
+        "Keep your tone supportive, encouraging, and professional."
+    )
+}
 
 # --- Pydantic Schemas ---
 class MessageCreate(BaseModel):
     content: str
+    mode: Optional[str] = "reflect"
 
 class MessageResponse(BaseModel):
     id: str
     conversation_id: str
     role: str
     content: str
+    mode: Optional[str] = None
     created_at: datetime
 
     class Config:
@@ -96,12 +110,12 @@ def update_user_streak(user: User, db: Session):
 
 
 # --- Mock AI Coach Fallback Generator ---
-def generate_mock_coach_response(user_input: str) -> str:
+def generate_mock_coach_response(user_input: str, mode: str = "reflect") -> str:
     user_input_lower = user_input.lower()
     
     if any(k in user_input_lower for k in ["career", "job", "work", "boss", "promotion", "business", "company"]):
         reflect = (
-            "What does success in this specific career scenario look like for you, beyond the immediate outcome?\n"
+            "What does success in this specific career scenario look like for you, beyond the immediate outcome?\n\n"
             "If you look at this situation from the perspective of a mentor who wants the best for you, what would they notice?"
         )
         focus = (
@@ -111,7 +125,7 @@ def generate_mock_coach_response(user_input: str) -> str:
         action = "Write down a list of your top 3 professional values, and check which one aligns best with this decision."
     elif any(k in user_input_lower for k in ["relationship", "friend", "partner", "love", "family", "parent", "colleague"]):
         reflect = (
-            "What unspoken expectations might you be holding for the other person in this dynamic?\n"
+            "What unspoken expectations might you be holding for the other person in this dynamic?\n\n"
             "How does this situation reflect your own values or personal boundaries?"
         )
         focus = (
@@ -121,7 +135,7 @@ def generate_mock_coach_response(user_input: str) -> str:
         action = "Draft a single, honest sentence summarizing your feelings to share with them, but do not send it yet. Read it aloud to yourself first."
     elif any(k in user_input_lower for k in ["health", "fitness", "tired", "sleep", "burnout", "stress", "anxious"]):
         reflect = (
-            "When did you first notice this physical or mental friction, and what was happening in your life at that time?\n"
+            "When did you first notice this physical or mental friction, and what was happening in your life at that time?\n\n"
             "What is your body trying to tell you through this stress or discomfort?"
         )
         focus = (
@@ -131,7 +145,7 @@ def generate_mock_coach_response(user_input: str) -> str:
         action = "Set a timer for 10 minutes, turn off all screens, and do nothing but sit or lay down in silence."
     else:
         reflect = (
-            "What is the most critical question you are avoiding asking yourself regarding this situation?\n"
+            "What is the most critical question you are avoiding asking yourself regarding this situation?\n\n"
             "If you had absolute clarity on this problem, what is the very first thing that would change?"
         )
         focus = (
@@ -140,7 +154,12 @@ def generate_mock_coach_response(user_input: str) -> str:
         )
         action = "Write down a single sentence that clearly defines the problem, and circle the one word that represents the core challenge."
         
-    return f"### 1. Reflect\n{reflect}\n\n### 2. Focus\n{focus}\n\n### 3. Take Action\n**Next Step:** {action}"
+    if mode == "focus":
+        return focus
+    elif mode == "action":
+        return action
+    else:
+        return reflect
 
 
 # --- Routes ---
@@ -244,11 +263,15 @@ def send_message(
     if not user_content:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Message content cannot be empty")
         
+    # Get active mode
+    active_mode = msg_data.mode if msg_data.mode in SYSTEM_INSTRUCTIONS else "reflect"
+        
     # 1. Save user message to database
     user_msg = Message(
         conversation_id=conv.id,
         role="user",
-        content=user_content
+        content=user_content,
+        mode=active_mode
     )
     db.add(user_msg)
     
@@ -293,7 +316,7 @@ def send_message(
                 
             model = genai.GenerativeModel(
                 model_name=model_name,
-                system_instruction=SYSTEM_INSTRUCTION
+                system_instruction=SYSTEM_INSTRUCTIONS[active_mode]
             )
             
             chat = model.start_chat(history=chat_history)
@@ -303,16 +326,17 @@ def send_message(
         except Exception as e:
             # Log error and fallback to mock coach responses if API call fails
             print(f"Gemini API Error: {str(e)}")
-            ai_response_content = generate_mock_coach_response(user_content) + "\n\n*(Note: Running in offline/fallback mode due to API error)*"
+            ai_response_content = generate_mock_coach_response(user_content, active_mode) + "\n\n*(Note: Running in offline/fallback mode due to API error)*"
     else:
         # Fallback to local structured coach response if no key is set
-        ai_response_content = generate_mock_coach_response(user_content)
+        ai_response_content = generate_mock_coach_response(user_content, active_mode)
         
     # 3. Save AI message to database
     assistant_msg = Message(
         conversation_id=conv.id,
         role="assistant",
-        content=ai_response_content
+        content=ai_response_content,
+        mode=active_mode
     )
     db.add(assistant_msg)
     db.commit()

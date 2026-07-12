@@ -47,6 +47,7 @@ class Message(Base):
     conversation_id = Column(String, ForeignKey("conversations.id", ondelete="CASCADE"), nullable=False)
     role = Column(String, nullable=False) # 'user' or 'assistant'
     content = Column(String, nullable=False)
+    mode = Column(String, nullable=True) # 'reflect', 'focus', or 'action'
     created_at = Column(DateTime, default=datetime.utcnow)
 
     # Relationships

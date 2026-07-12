@@ -22,6 +22,17 @@ mimetypes.add_type("text/css", ".css")
 # Perform database migration / initialization (creates SQLite tables automatically)
 Base.metadata.create_all(bind=engine)
 
+# Migration: check and add 'mode' column to 'messages' table if it does not already exist
+from sqlalchemy import text
+with engine.connect() as conn:
+    try:
+        conn.execute(text("ALTER TABLE messages ADD COLUMN mode VARCHAR;"))
+        conn.commit()
+    except Exception:
+        # Column already exists or table does not exist
+        pass
+
+
 app = FastAPI(
     title="Clarity AI API", 
     description="Backend server and thinking assistant engine for Clarity AI"
