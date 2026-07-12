@@ -26,11 +26,11 @@ export function renderDashboard() {
       <!-- Large Reflection Starter Box -->
       <div class="dashboard-search-container">
         <textarea id="reflection-input" class="dashboard-input" placeholder="Describe a problem, a decision you are facing, or what's on your mind..."></textarea>
-        <div class="flex justify-between align-center" style="gap: var(--spacing-sm); flex-wrap: wrap; width: 100%;">
-          <div class="flex align-center gap-md">
-            <span style="font-size: 12px; color: var(--text-tertiary);" id="reflection-char-count">0 characters</span>
-            <div class="chat-mode-select-container" style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 2px 6px;">
-              <select id="dashboard-mode-selector" class="chat-mode-dropdown" aria-label="Choose chat response mode" style="font-size: 13px;">
+        <div class="dashboard-footer-actions">
+          <div class="dashboard-footer-left">
+            <span id="reflection-char-count" class="char-count-badge">0 characters</span>
+            <div class="chat-mode-select-container dashboard-mode-select">
+              <select id="dashboard-mode-selector" class="chat-mode-dropdown" aria-label="Choose chat response mode">
                 <option value="reflect">💬 Reflect</option>
                 <option value="focus">🎯 Focus</option>
                 <option value="action">⚡ Action</option>
@@ -84,11 +84,18 @@ export function initDashboard() {
   const recentContainer = document.getElementById('recent-sessions-container');
   const statsContainer = document.getElementById('dashboard-stats-container');
 
-  // Input Character Counter
+  // Input Character Counter & Enter-to-Submit listener
   if (input && counter) {
     input.addEventListener('input', () => {
       const len = input.value.length;
       counter.textContent = `${len} character${len === 1 ? '' : 's'}`;
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (btn) btn.click();
+      }
     });
   }
 

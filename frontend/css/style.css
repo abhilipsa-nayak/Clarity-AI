@@ -1178,6 +1178,68 @@ body.dark-mode .navbar {
   color: var(--text-primary);
 }
 
+.dashboard-footer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+  margin-top: var(--spacing-md);
+  flex-wrap: nowrap; /* Prevent wrapping under all circumstances */
+}
+
+.dashboard-footer-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-shrink: 0;
+}
+
+.char-count-badge {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.dashboard-mode-select {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .char-count-badge {
+    display: none !important; /* Hide character count on tablets and mobiles to save space */
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-footer-actions {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: var(--spacing-xs) !important;
+  }
+  .dashboard-footer-left {
+    gap: 0 !important;
+  }
+  .dashboard-mode-select {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+  .dashboard-mode-select .chat-mode-dropdown {
+    padding: 4px 0 !important;
+  }
+  #start-reflecting-btn {
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+    white-space: nowrap !important;
+  }
+}
+
 .chat-input {
   flex: 1;
   min-height: 24px;
