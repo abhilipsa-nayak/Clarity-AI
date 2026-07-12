@@ -134,7 +134,7 @@ export function renderLanding() {
       <!-- 5. About / Vision Section -->
       <section class="about" id="about">
         <div class="container" style="display: flex; flex-direction: column; gap: var(--spacing-xl);">
-          <div class="about-banner" style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: var(--spacing-xl); align-items: start;">
+          <div class="about-banner grid grid-cols-2 gap-xl" style="align-items: start;">
             <div class="about-banner__text">
               <span class="badge" style="margin-bottom: 12px;">Vision & Philosophy</span>
               <h2 style="margin-bottom: var(--spacing-md); font-size: 32px;">Technology should strengthen human thinking—not replace it.</h2>
@@ -337,15 +337,6 @@ export function renderLanding() {
 }
 
 export function initLanding() {
-  // 0. Setup Theme Toggle Click Handler
-  const themeToggle = document.getElementById('theme-toggle-btn');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      if (window.ClarityAI && window.ClarityAI.toggleTheme) {
-        window.ClarityAI.toggleTheme();
-      }
-    });
-  }
 
   // 1. Setup FAQ Accordion Toggles
   const faqItems = document.querySelectorAll('.faq-item');

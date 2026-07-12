@@ -37,7 +37,7 @@ export function renderLearnMore() {
       </div>
 
       <!-- Socratic Cycle Science Box -->
-      <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); padding: var(--spacing-xl); border-radius: var(--radius-lg); display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-xl); align-items: center;">
+      <div class="grid grid-cols-2 gap-xl" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); padding: var(--spacing-xl); border-radius: var(--radius-lg); align-items: center;">
         <div>
           <h3 style="font-size: 22px; font-weight: 600; margin-bottom: 12px;">The Three-Stage Cycle</h3>
           <p style="font-size: 15px; line-height: 1.6; color: var(--text-secondary); margin-bottom: var(--spacing-md);">

@@ -115,6 +115,11 @@ export function updateThemeIcons() {
     landingBtn.innerHTML = isDark ? '<i data-lucide="sun"></i>' : '<i data-lucide="moon"></i>';
   }
   
+  const landingBtnMobile = document.getElementById('theme-toggle-btn-mobile');
+  if (landingBtnMobile) {
+    landingBtnMobile.innerHTML = isDark ? '<i data-lucide="sun"></i>' : '<i data-lucide="moon"></i>';
+  }
+  
   const sidebarBtn = document.getElementById('sidebar-theme-toggle');
   if (sidebarBtn) {
     sidebarBtn.innerHTML = isDark ? '<i data-lucide="sun"></i>' : '<i data-lucide="moon"></i>';
@@ -168,7 +173,9 @@ export function renderWithNavbar(viewContentHTML, activeTab = '') {
             <i data-lucide="compass" class="logo-icon"></i>
             <span>Clarity AI</span>
           </div>
-          <nav class="nav-links">
+          
+          <!-- Desktop Menu -->
+          <nav class="nav-links desktop-only">
             <a href="#/features" class="nav-link ${activeTab === 'features' ? 'active' : ''}">Features</a>
             <a href="#/about" class="nav-link ${activeTab === 'about' ? 'active' : ''}">About</a>
             <a href="#/learn-more" class="nav-link ${activeTab === 'learn-more' ? 'active' : ''}">Learn More</a>
@@ -178,18 +185,39 @@ export function renderWithNavbar(viewContentHTML, activeTab = '') {
             <button class="btn btn--text" onclick="window.location.hash = '#/login'">Login</button>
             <button class="btn btn--primary" onclick="window.location.hash = '#/signup'">Get Started</button>
           </nav>
+          
+          <!-- Mobile Navbar Controls -->
+          <div class="mobile-only" style="display: flex; align-items: center; gap: var(--spacing-sm);">
+            <button id="theme-toggle-btn-mobile" class="btn--icon" aria-label="Toggle theme">
+              <i data-lucide="sun"></i>
+            </button>
+            <button id="menu-toggle-btn" class="btn--icon" aria-label="Toggle menu">
+              <i data-lucide="menu"></i>
+            </button>
+          </div>
         </div>
       </header>
+      
+      <!-- Mobile Menu Dropdown Panel -->
+      <div id="mobile-menu" class="mobile-menu-panel" style="display: none;">
+        <nav style="display: flex; flex-direction: column; gap: 16px; padding: 20px;">
+          <a href="#/features" class="nav-link ${activeTab === 'features' ? 'active' : ''}" style="padding-block: 8px; border-bottom: 1px solid var(--border-color); font-size: 15px;">Features</a>
+          <a href="#/about" class="nav-link ${activeTab === 'about' ? 'active' : ''}" style="padding-block: 8px; border-bottom: 1px solid var(--border-color); font-size: 15px;">About</a>
+          <a href="#/learn-more" class="nav-link ${activeTab === 'learn-more' ? 'active' : ''}" style="padding-block: 8px; border-bottom: 1px solid var(--border-color); font-size: 15px;">Learn More</a>
+          <button class="btn btn--text" onclick="window.location.hash = '#/login'" style="justify-content: flex-start; padding-block: 8px; width: 100%;">Login</button>
+          <button class="btn btn--primary" onclick="window.location.hash = '#/signup'" style="width: 100%; justify-content: center;">Get Started</button>
+        </nav>
+      </div>
 
       <div style="flex: 1;">
         ${viewContentHTML}
       </div>
 
       <!-- Footer -->
-      <footer class="footer" style="border-top: 1px solid var(--border-color); padding-block: var(--spacing-xl); font-size: 14px; margin-top: var(--spacing-xxl);">
-        <div class="container footer__grid" style="display: flex; justify-content: space-between; align-items: center;">
+      <footer class="footer">
+        <div class="container footer__grid">
           <div>&copy; 2026 Clarity AI. Strengthening human agency.</div>
-          <div class="footer-links" style="display: flex; gap: var(--spacing-lg);">
+          <div class="footer-links">
             <a href="#/" style="opacity: 0.8;">Privacy Policy</a>
             <a href="#/" style="opacity: 0.8;">Terms of Service</a>
             <a href="https://github.com" target="_blank" style="opacity: 0.8;">GitHub</a>
@@ -378,6 +406,51 @@ async function handleRoute() {
   if (navbarToggle) {
     navbarToggle.addEventListener('click', () => {
       toggleTheme();
+    });
+  }
+  
+  const navbarToggleMobile = document.getElementById('theme-toggle-btn-mobile');
+  if (navbarToggleMobile) {
+    navbarToggleMobile.addEventListener('click', () => {
+      toggleTheme();
+    });
+  }
+  
+  // Bind hamburger menu toggle
+  const menuToggle = document.getElementById('menu-toggle-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isVisible = mobileMenu.style.display === 'block';
+      mobileMenu.style.display = isVisible ? 'none' : 'block';
+      menuToggle.innerHTML = isVisible ? '<i data-lucide="menu"></i>' : '<i data-lucide="x"></i>';
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    });
+    
+    // Close menu when clicking anywhere else
+    document.addEventListener('click', (e) => {
+      if (mobileMenu.style.display === 'block' && !mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+        mobileMenu.style.display = 'none';
+        menuToggle.innerHTML = '<i data-lucide="menu"></i>';
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      }
+    });
+    
+    // Close menu on link navigation clicks
+    const mobileLinks = mobileMenu.querySelectorAll('a, button');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.style.display = 'none';
+        menuToggle.innerHTML = '<i data-lucide="menu"></i>';
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      });
     });
   }
   

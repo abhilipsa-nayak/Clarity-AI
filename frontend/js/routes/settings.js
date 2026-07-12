@@ -93,7 +93,7 @@ export function renderSettingsView() {
           </h3>
           <p style="font-size: 14px;">Permanently log out or delete your account records. This action is irreversible.</p>
           
-          <div style="display: flex; gap: var(--spacing-md); margin-top: var(--spacing-sm);">
+          <div class="danger-zone-actions" style="display: flex; gap: var(--spacing-md); margin-top: var(--spacing-sm); flex-wrap: wrap;">
             <button class="btn btn--secondary" id="logout-btn" style="gap: 8px;">
               <i data-lucide="log-out"></i>
               <span>Log Out</span>
