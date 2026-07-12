@@ -4,6 +4,9 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 
 # Database URL points to local sqlite file by default, or env variable if deployed
 DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///./clarity.db")
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 
 # Create engine (use check_same_thread only for SQLite)
 connect_args = {}
