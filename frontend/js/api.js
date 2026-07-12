@@ -29,7 +29,7 @@ async function request(endpoint, options = {}) {
     const data = await response.json();
     
     if (!response.ok) {
-      if (response.status === 401) {
+      if (response.status === 401 && endpoint !== '/api/auth/login') {
         // Log out user on token expiration
         localStorage.removeItem('clarity_token');
         window.location.hash = '#/login';
