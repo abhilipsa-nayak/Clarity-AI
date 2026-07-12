@@ -289,44 +289,57 @@ def send_message(
     active_key = os.getenv("GEMINI_API_KEY")
     
     if active_key:
-        try:
-            genai.configure(api_key=active_key)
-            # Build chat history for Gemini
-            chat_history = []
-            # Fetch previous messages (excluding the current one to append manually if needed, or use history)
-            # Fetch all except the one we just added to send as current message
-            prev_messages = db.query(Message).filter(
-                Message.conversation_id == conv.id,
-                Message.id != user_msg.id
-            ).order_by(Message.created_at).all()
+        # Build chat history for Gemini
+        chat_history = []
+        # Fetch previous messages (excluding the current one to append manually if needed, or use history)
+        # Fetch all except the one we just added to send as current message
+        prev_messages = db.query(Message).filter(
+            Message.conversation_id == conv.id,
+            Message.id != user_msg.id
+        ).order_by(Message.created_at).all()
+        
+        # Map database roles to Gemini api roles (user, model)
+        for prev in prev_messages:
+            gemini_role = "user" if prev.role == "user" else "model"
+            chat_history.append({
+                "role": gemini_role,
+                "parts": [prev.content]
+            })
+        
+        # List of candidate models to try in order of preference
+        user_model = current_user.ai_model or "gemini-3.5-flash"
+        if user_model in ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.5-flash"]:
+            user_model = "gemini-3.5-flash"
             
-            # Map database roles to Gemini api roles (user, model)
-            for prev in prev_messages:
-                gemini_role = "user" if prev.role == "user" else "model"
-                chat_history.append({
-                    "role": gemini_role,
-                    "parts": [prev.content]
-                })
-            
-            # Use requested model (e.g. gemini-3.5-flash)
-            model_name = current_user.ai_model or "gemini-3.5-flash"
-            # Map legacy or quota-depleted models to the active gemini-3.5-flash model
-            if model_name in ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash", "gemini-2.5-flash"]:
-                model_name = "gemini-3.5-flash"
+        candidates = [user_model, "gemini-3.1-flash-lite", "gemini-3.5-flash", "gemini-2.0-flash"]
+        # Remove duplicates while preserving order
+        seen = set()
+        candidate_models = [x for x in candidates if not (x in seen or seen.add(x))]
+        
+        api_success = False
+        last_error = ""
+        
+        for model_name in candidate_models:
+            try:
+                genai.configure(api_key=active_key)
+                model = genai.GenerativeModel(
+                    model_name=model_name,
+                    system_instruction=SYSTEM_INSTRUCTIONS[active_mode]
+                )
                 
-            model = genai.GenerativeModel(
-                model_name=model_name,
-                system_instruction=SYSTEM_INSTRUCTIONS[active_mode]
-            )
-            
-            chat = model.start_chat(history=chat_history)
-            response = chat.send_message(user_content)
-            ai_response_content = response.text
-            
-        except Exception as e:
-            # Log error and fallback to mock coach responses if API call fails
-            print(f"Gemini API Error: {str(e)}")
-            ai_response_content = generate_mock_coach_response(user_content, active_mode) + "\n\n*(Note: Running in offline/fallback mode due to API error)*"
+                chat = model.start_chat(history=chat_history)
+                response = chat.send_message(user_content)
+                ai_response_content = response.text
+                api_success = True
+                break
+            except Exception as e:
+                last_error = str(e)
+                print(f"Gemini API Error with model {model_name}: {last_error}")
+                continue
+                
+        if not api_success:
+            # Fallback to local structured coach response if all API models fail
+            ai_response_content = generate_mock_coach_response(user_content, active_mode) + f"\n\n*(Note: Running in offline/fallback mode due to API error: {last_error})*"
     else:
         # Fallback to local structured coach response if no key is set
         ai_response_content = generate_mock_coach_response(user_content, active_mode)
