@@ -26,8 +26,17 @@ export function renderDashboard() {
       <!-- Large Reflection Starter Box -->
       <div class="dashboard-search-container">
         <textarea id="reflection-input" class="dashboard-input" placeholder="Describe a problem, a decision you are facing, or what's on your mind..."></textarea>
-        <div class="flex justify-between align-center">
-          <span style="font-size: 12px; color: var(--text-tertiary);" id="reflection-char-count">0 characters</span>
+        <div class="flex justify-between align-center" style="gap: var(--spacing-sm); flex-wrap: wrap; width: 100%;">
+          <div class="flex align-center gap-md">
+            <span style="font-size: 12px; color: var(--text-tertiary);" id="reflection-char-count">0 characters</span>
+            <div class="chat-mode-select-container" style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 2px 6px;">
+              <select id="dashboard-mode-selector" class="chat-mode-dropdown" aria-label="Choose chat response mode" style="font-size: 13px;">
+                <option value="reflect">💬 Reflect</option>
+                <option value="focus">🎯 Focus</option>
+                <option value="action">⚡ Action</option>
+              </select>
+            </div>
+          </div>
           <button class="btn btn--primary" id="start-reflecting-btn">
             <span>Start Reflecting</span>
             <i data-lucide="compass" style="width: 16px; height: 16px;"></i>
@@ -92,6 +101,9 @@ export function initDashboard() {
         return;
       }
 
+      const modeSelector = document.getElementById('dashboard-mode-selector');
+      const mode = modeSelector ? modeSelector.value : 'reflect';
+
       btn.disabled = true;
       const originalContent = btn.innerHTML;
       btn.innerHTML = `<span>Structuring Session...</span>`;
@@ -101,8 +113,8 @@ export function initDashboard() {
         const title = promptText.length > 30 ? promptText.substring(0, 30) + '...' : promptText;
         const conv = await createConversation(title);
         
-        // Send initial message
-        await sendMessage(conv.id, promptText);
+        // Send initial message with selected mode
+        await sendMessage(conv.id, promptText, mode);
         
         // Redirect directly to the new session
         window.location.hash = `#/chat/${conv.id}`;
