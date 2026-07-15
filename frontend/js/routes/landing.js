@@ -79,30 +79,7 @@ export function renderLanding() {
         </div>
       </section>
 
-      <!-- 4. Deep Dives / CTA -->
-      <section class="how-it-works" id="deep-dives" style="background-color: var(--bg-primary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding-block: var(--spacing-xxl);">
-        <div class="container">
-          <div class="grid grid-cols-2 gap-xl" style="align-items: center;">
-            <div>
-              <span class="badge">Spacious & Private</span>
-              <h2 style="margin-top: 12px; font-size: 28px; line-height: 1.3;">Designed to strengthen human intelligence, not replace it.</h2>
-              <p style="margin-top: 16px; color: var(--text-secondary); line-height: 1.6;">
-                Most AI apps try to solve problems for you, leading to cognitive reliance. Clarity AI acts as a mirror for your own thinking, protecting your privacy and data autonomy.
-              </p>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: var(--spacing-md); background-color: var(--bg-secondary); border: 1px solid var(--border-color); padding: var(--spacing-lg); border-radius: var(--radius-lg);">
-              <h3 style="font-size: 18px; font-weight: 600;">Want to explore further?</h3>
-              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Dive deeper into the psychological principles, cognitive science, and mission behind Clarity AI.</p>
-              <div style="display: flex; gap: var(--spacing-sm); margin-top: 8px;">
-                <button class="btn btn--secondary" onclick="window.location.hash = '#/about'" style="flex: 1;">About Us</button>
-                <button class="btn btn--secondary" onclick="window.location.hash = '#/learn-more'" style="flex: 1;">The Science</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 5. Testimonials -->
+      <!-- 4. Testimonials -->
       <section class="testimonials">
         <div class="container">
           <div class="section-header text-center">
@@ -153,71 +130,13 @@ export function renderLanding() {
         </div>
       </section>
 
-      <!-- 6. FAQ Section Accordion -->
-      <section class="faq" id="faq" style="background-color: var(--bg-secondary); padding-block: var(--spacing-xxl);">
-        <div class="container">
-          <div class="section-header text-center">
-            <span class="badge" style="margin-bottom: 12px;">FAQ</span>
-            <h2>Frequently Asked Questions</h2>
-            <p style="color: var(--text-secondary); margin-top: 8px;">Quick answers to essential questions.</p>
-          </div>
-          
-          <div class="faq-list">
-            <div class="faq-item">
-              <button class="faq-question">
-                <span>Why doesn't Clarity AI give me direct answers?</span>
-                <i data-lucide="chevron-down" class="faq-chevron"></i>
-              </button>
-              <div class="faq-answer">
-                Direct answers from LLMs encourage cognitive dependency. Clarity AI is specifically built as a mirror to guide your introspection, ensuring you build critical thinking capacity and own your outcomes.
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question">
-                <span>Is my conversational data private and secure?</span>
-                <i data-lucide="chevron-down" class="faq-chevron"></i>
-              </button>
-              <div class="faq-answer">
-                Yes. Your records are stored securely in a local database tied to your password-encrypted account. We never sell your data or train external models on your thinking journeys.
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question">
-                <span>Can I use Clarity AI if I don't have an active API Key?</span>
-                <i data-lucide="chevron-down" class="faq-chevron"></i>
-              </button>
-              <div class="faq-answer">
-                Yes! If no GEMINI_API_KEY is configured in the environment, Clarity AI will automatically fall back to Demo Mode. It will generate simulated Socratic questions, prioritize core blind spots, and offer action prompts based on your input content offline.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
     </div>
   `;
 }
 
 export function initLanding() {
 
-  // 1. Setup FAQ Accordion Toggles
-  const faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
-    question.addEventListener('click', () => {
-      const isActive = item.classList.contains('active');
-      // Close all first
-      faqItems.forEach(i => i.classList.remove('active'));
-      // Toggle current
-      if (!isActive) {
-        item.classList.add('active');
-      }
-    });
-  });
-
-  // 2. Setup Interactive Mock Chat Demo
+  // Setup Interactive Mock Chat Demo
   const form = document.getElementById('demo-chat-form');
   const input = document.getElementById('demo-chat-input');
   const chatBody = document.getElementById('demo-chat-body');
