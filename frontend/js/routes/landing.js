@@ -48,135 +48,61 @@ export function renderLanding() {
         </div>
       </section>
 
-      <!-- 3. Features Section -->
-      <section class="features" id="features">
+      <!-- 3. Process Section (Merged) -->
+      <section class="features" id="process">
         <div class="container">
           <div class="section-header text-center">
-            <span class="badge">Built For Deeper Minds</span>
-            <h2 style="margin-top: 12px;">Core Capabilities</h2>
-            <p style="max-width: 600px; margin: 0 auto;">Everything you need to step away from cognitive shortcuts and engage in structured reflection.</p>
+            <span class="badge">The Socratic Method</span>
+            <h2 style="margin-top: 12px;">How It Works</h2>
+            <p style="max-width: 600px; margin: 0 auto;">Move systematically from confusion to clarity through three distinct modes of thinking.</p>
           </div>
           
           <div class="features__grid">
             <div class="feature-card">
-              <div class="feature-card__icon"><i data-lucide="refresh-cw"></i></div>
-              <h3>Reflect</h3>
+              <div class="feature-card__icon" style="color: var(--accent);"><i data-lucide="refresh-cw"></i></div>
+              <h3>1. Reflect Mode</h3>
               <p>Unpack complex ideas and issues by answering guided, open-ended questions designed to examine details objectively.</p>
             </div>
             
             <div class="feature-card">
-              <div class="feature-card__icon"><i data-lucide="eye"></i></div>
-              <h3>Focus</h3>
+              <div class="feature-card__icon" style="color: var(--accent);"><i data-lucide="eye"></i></div>
+              <h3>2. Focus Mode</h3>
               <p>Identify core assumptions, analyze potential blind spots, and isolate your single highest priority.</p>
             </div>
             
             <div class="feature-card">
-              <div class="feature-card__icon"><i data-lucide="compass"></i></div>
-              <h3>Take Action</h3>
+              <div class="feature-card__icon" style="color: var(--accent);"><i data-lucide="compass"></i></div>
+              <h3>3. Take Action Mode</h3>
               <p>Arrive at exactly one concrete, immediate next step. Move from analysis paralysis to meaningful execution.</p>
             </div>
-
-            <div class="feature-card">
-              <div class="feature-card__icon"><i data-lucide="clock"></i></div>
-              <h3>Conversation History</h3>
-              <p>Every session is logged locally in your account history so you can review your thinking journeys over time.</p>
-            </div>
-
-            <div class="feature-card">
-              <div class="feature-card__icon"><i data-lucide="cpu"></i></div>
-              <h3>AI Thinking Coach</h3>
-              <p>Advanced LLM prompts behave like a thoughtful mentor, coach, psychologist, and strategic partner combined.</p>
-            </div>
-
-            <div class="feature-card">
-              <div class="feature-card__icon"><i data-lucide="shield-check"></i></div>
-              <h3>Secure Accounts</h3>
-              <p>Your session history is securely password-protected and private. Easily manage your preferences.</p>
-            </div>
           </div>
         </div>
       </section>
 
-      <!-- 4. How It Works -->
-      <section class="how-it-works" id="how-it-works">
+      <!-- 4. Deep Dives / CTA -->
+      <section class="how-it-works" id="deep-dives" style="background-color: var(--bg-primary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding-block: var(--spacing-xxl);">
         <div class="container">
-          <div class="section-header text-center">
-            <h2>The Reflection Cycle</h2>
-            <p>Our structured thinking model helps you move systematically from chaos to clarity.</p>
-          </div>
-          
-          <div class="steps-flow">
-            <div class="step-item">
-              <div class="step-num">1</div>
-              <h3>Reflect</h3>
-              <p style="margin-top: 8px; max-width: 250px;">Uncover context and details through targeted inquiries.</p>
-            </div>
-            
-            <div class="step-arrow"><i data-lucide="chevron-right"></i></div>
-            
-            <div class="step-item">
-              <div class="step-num">2</div>
-              <h3>Focus</h3>
-              <p style="margin-top: 8px; max-width: 250px;">Challenge assumptions and narrow down priorities.</p>
-            </div>
-            
-            <div class="step-arrow"><i data-lucide="chevron-right"></i></div>
-            
-            <div class="step-item">
-              <div class="step-num">3</div>
-              <h3>Take Action</h3>
-              <p style="margin-top: 8px; max-width: 250px;">Define one single, practical starting point.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 5. About / Vision Section -->
-      <section class="about" id="about">
-        <div class="container" style="display: flex; flex-direction: column; gap: var(--spacing-xl);">
-          <div class="about-banner grid grid-cols-2 gap-xl" style="align-items: start;">
-            <div class="about-banner__text">
-              <span class="badge" style="margin-bottom: 12px;">Vision & Philosophy</span>
-              <h2 style="margin-bottom: var(--spacing-md); font-size: 32px;">Technology should strengthen human thinking—not replace it.</h2>
-              <p style="line-height: 1.6; font-size: 16px; margin-bottom: var(--spacing-md);">
-                Clarity AI is an AI-powered web application that helps users improve their thinking and decision-making skills. Instead of providing direct answers, the application guides you through a structured reflection process, encouraging independent thinking and meaningful action.
+          <div class="grid grid-cols-2 gap-xl" style="align-items: center;">
+            <div>
+              <span class="badge">Spacious & Private</span>
+              <h2 style="margin-top: 12px; font-size: 28px; line-height: 1.3;">Designed to strengthen human intelligence, not replace it.</h2>
+              <p style="margin-top: 16px; color: var(--text-secondary); line-height: 1.6;">
+                Most AI apps try to solve problems for you, leading to cognitive reliance. Clarity AI acts as a mirror for your own thinking, protecting your privacy and data autonomy.
               </p>
-              <div class="philosophical-badge" style="border-left: 4px solid var(--error); background-color: var(--bg-secondary); padding: 16px; margin-top: 16px;">
-                <strong style="display: block; font-size: 14px; text-transform: uppercase; color: var(--error); margin-bottom: 4px; letter-spacing: 0.05em;">The Problem Statement</strong>
-                <p style="font-size: 15px; color: var(--text-primary); line-height: 1.5;">
-                  Most AI applications provide instant answers, making users increasingly dependent on AI. This reduces critical thinking, analytical reasoning, and long-term problem-solving abilities.
-                </p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-md); background-color: var(--bg-secondary); border: 1px solid var(--border-color); padding: var(--spacing-lg); border-radius: var(--radius-lg);">
+              <h3 style="font-size: 18px; font-weight: 600;">Want to explore further?</h3>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Dive deeper into the psychological principles, cognitive science, and mission behind Clarity AI.</p>
+              <div style="display: flex; gap: var(--spacing-sm); margin-top: 8px;">
+                <button class="btn btn--secondary" onclick="window.location.hash = '#/about'" style="flex: 1;">About Us</button>
+                <button class="btn btn--secondary" onclick="window.location.hash = '#/learn-more'" style="flex: 1;">The Science</button>
               </div>
             </div>
-            <div class="about-banner__text" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); padding: var(--spacing-lg); border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 16px;">
-              <h3 style="font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                <i data-lucide="users" style="color: var(--accent);"></i>
-                <span>Designed For</span>
-              </h3>
-              <ul style="display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
-                <li style="display: flex; gap: 8px; align-items: start; list-style: none;">
-                  <i data-lucide="graduation-cap" style="color: var(--accent); width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;"></i>
-                  <div><strong>Students & Learners</strong><br><span style="color: var(--text-secondary);">MCA, B.Tech, and academic thinkers building critical reasoning.</span></div>
-                </li>
-                <li style="display: flex; gap: 8px; align-items: start; list-style: none;">
-                  <i data-lucide="briefcase" style="color: var(--accent); width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;"></i>
-                  <div><strong>Freshers & Job Seekers</strong><br><span style="color: var(--text-secondary);">Graduates navigating career choices and interview dilemmas.</span></div>
-                </li>
-                <li style="display: flex; gap: 8px; align-items: start; list-style: none;">
-                  <i data-lucide="user-check" style="color: var(--accent); width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;"></i>
-                  <div><strong>Professionals & Leaders</strong><br><span style="color: var(--text-secondary);">Managing workplace priority focus and strategic planning.</span></div>
-                </li>
-                <li style="display: flex; gap: 8px; align-items: start; list-style: none;">
-                  <i data-lucide="compass" style="color: var(--accent); width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;"></i>
-                  <div><strong>Anyone</strong><br><span style="color: var(--text-secondary);">Seeking structure to step out of confusion and make choices.</span></div>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </section>
 
-      <!-- 6. Testimonials -->
+      <!-- 5. Testimonials -->
       <section class="testimonials">
         <div class="container">
           <div class="section-header text-center">
@@ -227,50 +153,13 @@ export function renderLanding() {
         </div>
       </section>
 
-      <!-- 6.5 Science of Reflection / Learn More Section -->
-      <section class="learn-more" id="learn-more" style="background-color: var(--bg-primary); padding-block: var(--spacing-xxl); border-bottom: 1px solid var(--border-color); border-top: 1px solid var(--border-color);">
-        <div class="container">
-          <div class="section-header text-center">
-            <span class="badge" style="margin-bottom: 12px;">Cognitive Science</span>
-            <h2>The Science of Reflection</h2>
-            <p style="max-width: 600px; margin: 0 auto; color: var(--text-secondary); margin-top: 8px;">Why answering guided questions creates stronger, more resilient decisions than simply asking an AI for answers.</p>
-          </div>
-          
-          <div class="grid grid-cols-3 gap-lg" style="margin-top: var(--spacing-lg);">
-            <div class="settings-card" style="padding: var(--spacing-lg); display: flex; flex-direction: column; gap: 12px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-lg);">
-              <div class="feature-card__icon" style="background-color: rgba(239, 68, 68, 0.08); color: var(--error); width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;"><i data-lucide="zap-off" style="width: 20px; height: 20px;"></i></div>
-              <h3 style="font-size: 18px; font-weight: 600;">The Illusion of Competence</h3>
-              <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary);">
-                Copying lists of steps generated by instant-answer systems creates an "illusion of competence" in our brains. Because we didn't do the mental work to arrive at the conclusions, we carry zero emotional alignment, resulting in poor follow-through and analysis paralysis.
-              </p>
-            </div>
-            
-            <div class="settings-card" style="padding: var(--spacing-lg); display: flex; flex-direction: column; gap: 12px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-lg);">
-              <div class="feature-card__icon" style="background-color: var(--accent-light); color: var(--accent); width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;"><i data-lucide="help-circle" style="width: 20px; height: 20px;"></i></div>
-              <h3 style="font-size: 18px; font-weight: 600;">The Socratic Catalyst</h3>
-              <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary);">
-                Clarity AI triggers the <em>generation effect</em>—the cognitive science principle that information generated by your own mind is integrated and recalled up to 10x better. By prompting you to write down your context, the AI acts as a mirror to your own wisdom.
-              </p>
-            </div>
-            
-            <div class="settings-card" style="padding: var(--spacing-lg); display: flex; flex-direction: column; gap: 12px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-lg);">
-              <div class="feature-card__icon" style="background-color: rgba(34, 197, 94, 0.08); color: var(--success); width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;"><i data-lucide="target" style="width: 20px; height: 20px;"></i></div>
-              <h3 style="font-size: 18px; font-weight: 600;">Dissolving Choice Fatigue</h3>
-              <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary);">
-                When facing complex decisions, the prefrontal cortex experiences severe overload when presented with multiple options. By strictly restricting the action suggestions to <strong>exactly one immediate micro-step</strong>, Clarity AI helps you build quick momentum.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 7. FAQ Section Accordion -->
+      <!-- 6. FAQ Section Accordion -->
       <section class="faq" id="faq" style="background-color: var(--bg-secondary); padding-block: var(--spacing-xxl);">
         <div class="container">
           <div class="section-header text-center">
-            <span class="badge" style="margin-bottom: 12px;">Help Desk</span>
+            <span class="badge" style="margin-bottom: 12px;">FAQ</span>
             <h2>Frequently Asked Questions</h2>
-            <p style="color: var(--text-secondary); margin-top: 8px;">Everything you need to know about the thinking companion.</p>
+            <p style="color: var(--text-secondary); margin-top: 8px;">Quick answers to essential questions.</p>
           </div>
           
           <div class="faq-list">
@@ -286,16 +175,6 @@ export function renderLanding() {
 
             <div class="faq-item">
               <button class="faq-question">
-                <span>How does the 3-stage reflection cycle work?</span>
-                <i data-lucide="chevron-down" class="faq-chevron"></i>
-              </button>
-              <div class="faq-answer">
-                First, we prompt you to <strong>Reflect</strong> (uncover details). Then, we assist you to <strong>Focus</strong> (highlighting biases, assumptions, and blind spots). Finally, we restrict action outputs to <strong>one next step</strong> so you move forward without distraction.
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question">
                 <span>Is my conversational data private and secure?</span>
                 <i data-lucide="chevron-down" class="faq-chevron"></i>
               </button>
@@ -306,26 +185,11 @@ export function renderLanding() {
 
             <div class="faq-item">
               <button class="faq-question">
-                <span>What are the different AI models in settings and when should I use them?</span>
-                <i data-lucide="chevron-down" class="faq-chevron"></i>
-              </button>
-              <div class="faq-answer">
-                In your account settings page, you can choose between:
-                <ul style="margin-top: 8px; padding-left: 16px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: var(--text-secondary);">
-                  <li><strong>Gemini 3.5 Flash (Recommended):</strong> Designed for highly responsive, immediate reflection loops. Excellent for everyday dilemmas.</li>
-                  <li><strong>Gemini 2.5 Pro:</strong> Deploys advanced logic matrices for heavy, high-stakes decisions requiring multi-step history and deep context.</li>
-                  <li><strong>Gemini 2.0 Flash:</strong> Balanced capabilities suitable for fast-reflecting metrics.</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question">
                 <span>Can I use Clarity AI if I don't have an active API Key?</span>
                 <i data-lucide="chevron-down" class="faq-chevron"></i>
               </button>
               <div class="faq-answer">
-                Yes! If no \`GEMINI_API_KEY\` is configured in the environment, Clarity AI will automatically fall back to <strong>Demo Mode</strong>. It will generate simulated Socratic questions, prioritize core blind spots, and offer action prompts based on your input content, so you can test the structured reflection workflow completely offline.
+                Yes! If no GEMINI_API_KEY is configured in the environment, Clarity AI will automatically fall back to Demo Mode. It will generate simulated Socratic questions, prioritize core blind spots, and offer action prompts based on your input content offline.
               </div>
             </div>
           </div>
