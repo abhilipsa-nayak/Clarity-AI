@@ -43,15 +43,15 @@ export function renderLearnMore() {
           <p style="font-size: 15px; line-height: 1.6; color: var(--text-secondary); margin-bottom: var(--spacing-md);">
             Our thinking coach uses a structured cycle mapped directly to human problem-solving neurology:
           </p>
-          <ul style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; color: var(--text-secondary);">
-            <li style="list-style: none; display: flex; gap: 8px;">
-              <span style="color: var(--accent); font-weight: bold;">1. Reflect:</span> Focuses on self-disclosure and emotional identification to define the core variables.
+          <ul style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; color: var(--text-secondary); padding: 0; margin: 0;">
+            <li style="list-style: none; line-height: 1.6;">
+              <strong style="color: var(--accent);">1. Reflect:</strong> Focuses on self-disclosure and emotional identification to define the core variables.
             </li>
-            <li style="list-style: none; display: flex; gap: 8px;">
-              <span style="color: var(--accent); font-weight: bold;">2. Focus:</span> Exposes cognitive blind spots and separates what you can control from external outcomes.
+            <li style="list-style: none; line-height: 1.6;">
+              <strong style="color: var(--accent);">2. Focus:</strong> Exposes cognitive blind spots and separates what you can control from external outcomes.
             </li>
-            <li style="list-style: none; display: flex; gap: 8px;">
-              <span style="color: var(--accent); font-weight: bold;">3. Take Action:</span> Forces prioritization of a single micro-task to dissolve inertia.
+            <li style="list-style: none; line-height: 1.6;">
+              <strong style="color: var(--accent);">3. Take Action:</strong> Forces prioritization of a single micro-task to dissolve inertia.
             </li>
           </ul>
         </div>
