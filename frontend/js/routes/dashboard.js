@@ -143,7 +143,8 @@ export function initDashboard() {
         // Store pending initial message in sessionStorage for instant chat transition
         sessionStorage.setItem(`pending_msg_${conv.id}`, JSON.stringify({
           content: promptText,
-          mode: mode
+          mode: mode,
+          conv: conv
         }));
         
         // Redirect INSTANTLY to the new session

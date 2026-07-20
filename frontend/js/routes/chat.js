@@ -88,10 +88,21 @@ export async function initChatView(convId) {
     });
   }
 
-  // Load details
+  // Load details & check pending initial message
+  const pendingKey = `pending_msg_${convId}`;
+  const pendingRaw = sessionStorage.getItem(pendingKey);
+  let pending = null;
+  if (pendingRaw) {
+    try { pending = JSON.parse(pendingRaw); } catch (e) {}
+  }
+
   try {
-    const conversationsList = await getConversations();
-    activeConv = conversationsList.find(c => c.id === convId);
+    if (pending && pending.conv) {
+      activeConv = pending.conv;
+    } else {
+      const conversationsList = await getConversations();
+      activeConv = conversationsList.find(c => c.id === convId);
+    }
     
     if (!activeConv) {
       showToast('Conversation not found', 'error');
@@ -108,14 +119,8 @@ export async function initChatView(convId) {
     const messages = await getMessages(convId);
     board.innerHTML = '';
     
-    const pendingKey = `pending_msg_${convId}`;
-    const pendingRaw = sessionStorage.getItem(pendingKey);
-    
     if (pendingRaw) {
       sessionStorage.removeItem(pendingKey);
-      let pending = null;
-      try { pending = JSON.parse(pendingRaw); } catch (e) {}
-      
       messages.forEach(m => appendMessage(board, m.role, m.content));
       if (pending && pending.content) {
         appendMessage(board, 'user', pending.content);

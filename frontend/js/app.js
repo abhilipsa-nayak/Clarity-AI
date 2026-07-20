@@ -305,22 +305,22 @@ async function handleRoute() {
 
   // Route definitions
   if (path === '#/' || path === '') {
-    const { renderLanding, initLanding } = await import('./routes/landing.js');
+    const { renderLanding, initLanding } = await import('./routes/landing.js?v=1.3');
     appContainer.innerHTML = renderWithNavbar(renderLanding(), 'home');
     initLanding();
   } 
   else if (path === '#/features') {
-    const { renderFeatures, initFeatures } = await import('./routes/features.js');
+    const { renderFeatures, initFeatures } = await import('./routes/features.js?v=1.3');
     appContainer.innerHTML = renderWithNavbar(renderFeatures(), 'features');
     initFeatures();
   } 
   else if (path === '#/about') {
-    const { renderAbout, initAbout } = await import('./routes/about.js');
+    const { renderAbout, initAbout } = await import('./routes/about.js?v=1.3');
     appContainer.innerHTML = renderWithNavbar(renderAbout(), 'about');
     initAbout();
   } 
   else if (path === '#/learn-more') {
-    const { renderLearnMore, initLearnMore } = await import('./routes/learn_more.js');
+    const { renderLearnMore, initLearnMore } = await import('./routes/learn_more.js?v=1.3');
     appContainer.innerHTML = renderWithNavbar(renderLearnMore(), 'learn-more');
     initLearnMore();
   } 
@@ -329,7 +329,7 @@ async function handleRoute() {
       window.location.hash = '#/dashboard';
       return;
     }
-    const { renderLogin, initLogin } = await import('./routes/auth.js');
+    const { renderLogin, initLogin } = await import('./routes/auth.js?v=1.3');
     appContainer.innerHTML = renderLogin();
     initLogin();
   } 
@@ -338,7 +338,7 @@ async function handleRoute() {
       window.location.hash = '#/dashboard';
       return;
     }
-    const { renderSignup, initSignup } = await import('./routes/auth.js');
+    const { renderSignup, initSignup } = await import('./routes/auth.js?v=1.3');
     appContainer.innerHTML = renderSignup();
     initSignup();
   } 
@@ -347,9 +347,8 @@ async function handleRoute() {
       window.location.hash = '#/login';
       return;
     }
-    const { renderDashboard } = await import('./routes/dashboard.js');
+    const { renderDashboard, initDashboard } = await import('./routes/dashboard.js?v=1.3');
     appContainer.innerHTML = renderWithSidebar(renderDashboard(), 'dashboard');
-    const { initDashboard } = await import('./routes/dashboard.js');
     initDashboard();
   } 
   else if (path.startsWith('#/chat/')) {
@@ -359,7 +358,7 @@ async function handleRoute() {
     }
     const convId = path.split('#/chat/')[1];
     state.activeConvId = convId;
-    const { renderChatView, initChatView } = await import('./routes/chat.js');
+    const { renderChatView, initChatView } = await import('./routes/chat.js?v=1.3');
     appContainer.innerHTML = renderWithSidebar(renderChatView(), 'dashboard');
     initChatView(convId);
   } 
@@ -368,7 +367,7 @@ async function handleRoute() {
       window.location.hash = '#/login';
       return;
     }
-    const { renderHistoryView, initHistoryView } = await import('./routes/history.js');
+    const { renderHistoryView, initHistoryView } = await import('./routes/history.js?v=1.3');
     appContainer.innerHTML = renderWithSidebar(renderHistoryView(), 'history');
     initHistoryView();
   } 
@@ -377,7 +376,7 @@ async function handleRoute() {
       window.location.hash = '#/login';
       return;
     }
-    const { renderSettingsView, initSettingsView } = await import('./routes/settings.js');
+    const { renderSettingsView, initSettingsView } = await import('./routes/settings.js?v=1.3');
     appContainer.innerHTML = renderWithSidebar(renderSettingsView(), 'settings');
     initSettingsView();
   } 
