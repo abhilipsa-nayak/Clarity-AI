@@ -333,17 +333,15 @@ def send_message(
                 )
                 
                 chat = model.start_chat(history=chat_history)
-                response = chat.send_message(user_content)
+                response = chat.send_message(user_content, request_options={"timeout": 5.0})
                 ai_response_content = response.text
                 api_success = True
                 break
             except Exception as e:
                 last_error = str(e)
                 print(f"Gemini API Error with model {model_name}: {last_error}")
-                if "429" in last_error or "quota" in last_error.lower():
-                    # Daily or rate limit quota exceeded; break immediately to provide instant fallback
-                    break
-                continue
+                # Break immediately on any error/timeout to provide instant fallback response
+                break
                 
         if not api_success:
             # Fallback to local structured coach response if all API models fail

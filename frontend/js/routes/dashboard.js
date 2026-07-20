@@ -114,8 +114,14 @@ export function initDashboard() {
     } else {
       btn.innerHTML = `<span>Start Chat</span><i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>`;
     }
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   };
+
+  // Reset button state & sync icon on view init
+  if (btn) {
+    btn.disabled = false;
+    updateDashboardButton();
+  }
 
   if (modeSelector && btn) {
     modeSelector.addEventListener('change', updateDashboardButton);
