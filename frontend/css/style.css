@@ -1557,7 +1557,14 @@ body.dark-mode .skeleton-box::after {
     white-space: nowrap;
     padding: 8px 12px;
   }
-  .sidebar-header, .sidebar-footer {
+  .sidebar-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: var(--spacing-xs);
+  }
+  .sidebar-footer {
     display: none;
   }
   .dashboard-stats {

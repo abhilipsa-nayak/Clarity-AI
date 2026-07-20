@@ -99,10 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // App themes manager
 export function applyTheme(theme) {
-  if (theme === 'dark') {
-    document.body.classList.add('dark-mode');
-  } else {
+  if (theme === 'light') {
     document.body.classList.remove('dark-mode');
+  } else {
+    document.body.classList.add('dark-mode');
   }
   updateThemeIcons();
 }

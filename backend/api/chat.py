@@ -18,6 +18,11 @@ if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
 
 SYSTEM_INSTRUCTIONS = {
+    "default": (
+        "You are Clarity AI, an intelligent, versatile, and helpful AI assistant powered by Gemini. "
+        "Provide direct, clear, natural, and comprehensive answers to the user's questions or prompts, "
+        "just like standard Gemini. Adapt your tone and depth to whatever topic or inquiry the user presents."
+    ),
     "reflect": (
         "You are Clarity AI, a premium, thoughtful Socratic coach. "
         "Your objective is to help the user reflect on their situation. "
@@ -50,7 +55,7 @@ SYSTEM_INSTRUCTIONS = {
 # --- Pydantic Schemas ---
 class MessageCreate(BaseModel):
     content: str
-    mode: Optional[str] = "reflect"
+    mode: Optional[str] = "default"
 
 class MessageResponse(BaseModel):
     id: str
@@ -110,8 +115,15 @@ def update_user_streak(user: User, db: Session):
 
 
 # --- Mock AI Coach Fallback Generator ---
-def generate_mock_coach_response(user_input: str, mode: str = "reflect") -> str:
+def generate_mock_coach_response(user_input: str, mode: str = "default") -> str:
     user_input_lower = user_input.lower()
+    
+    if mode == "default":
+        return (
+            f"Here is a direct analysis for: '{user_input}'.\n\n"
+            "When evaluating choices, consider your primary objective, key dependencies, and immediate priorities. "
+            "Feel free to ask follow-up questions, or switch to Reflect, Focus, or Action mode anytime!"
+        )
     
     if any(k in user_input_lower for k in ["career", "job", "work", "boss", "promotion", "business", "company"]):
         reflect = (
@@ -264,7 +276,7 @@ def send_message(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Message content cannot be empty")
         
     # Get active mode
-    active_mode = msg_data.mode if msg_data.mode in SYSTEM_INSTRUCTIONS else "reflect"
+    active_mode = msg_data.mode if msg_data.mode in SYSTEM_INSTRUCTIONS else "default"
         
     # 1. Save user message to database
     user_msg = Message(

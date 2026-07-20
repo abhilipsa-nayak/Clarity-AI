@@ -45,12 +45,13 @@ export function renderChatView() {
         <form class="chat-input-wrapper" id="chat-input-form">
           <div class="chat-mode-select-container">
             <select id="chat-mode-selector" class="chat-mode-dropdown" aria-label="Choose chat response mode">
+              <option value="default" selected>✨ Normal</option>
               <option value="reflect">💬 Reflect</option>
               <option value="focus">🎯 Focus</option>
               <option value="action">⚡ Action</option>
             </select>
           </div>
-          <textarea class="chat-input" id="chat-input-field" placeholder="Share your reflections here..." required></textarea>
+          <textarea class="chat-input" id="chat-input-field" placeholder="Ask anything or share your thoughts..." required></textarea>
           <button type="submit" class="btn btn--primary" id="chat-send-btn" style="padding: 10px; border-radius: var(--radius-sm);" aria-label="Send message">
             <i data-lucide="send" style="width: 16px; height: 16px;"></i>
           </button>
@@ -100,13 +101,9 @@ export async function initChatView(convId) {
 
     // Set header information
     titleHeader.textContent = activeConv.title;
-    const formattedDate = new Date(activeConv.created_at).toLocaleDateString(undefined, {
-      month: 'long', day: 'numeric', year: 'numeric'
-    });
-    dateHeader.textContent = `Started on ${formattedDate}`;
+    const formattedDate = new Date(activeConv.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    dateHeader.textContent = `Started ${formattedDate}`;
     
-    updateFavoriteIcon(activeConv.is_favorite);
-
     // Fetch and load messages
     const messages = await getMessages(convId);
     board.innerHTML = '';
@@ -115,8 +112,8 @@ export async function initChatView(convId) {
       board.innerHTML = `
         <div class="empty-state">
           <div class="empty-state__icon"><i data-lucide="message-square"></i></div>
-          <h3>Thinking Session Started</h3>
-          <p>Tell Clarity Coach what is on your mind or how you are feeling about this scenario.</p>
+          <h3>Empty Thinking Session</h3>
+          <p>Send a message below to start your conversation with Clarity AI.</p>
         </div>
       `;
     } else {
@@ -129,11 +126,23 @@ export async function initChatView(convId) {
 
   } catch (err) {
     showToast(err.message, 'error');
-    window.location.hash = '#/dashboard';
   }
 
   // Header control: Toggle Favorite
+  const updateFavoriteIcon = (isFav) => {
+    if (!favBtn) return;
+    if (isFav) {
+      favBtn.style.color = 'var(--warning)';
+      favBtn.innerHTML = `<i data-lucide="star" style="fill: var(--warning);"></i>`;
+    } else {
+      favBtn.style.color = 'var(--text-secondary)';
+      favBtn.innerHTML = `<i data-lucide="star"></i>`;
+    }
+    lucide.createIcons();
+  };
+
   if (favBtn) {
+    updateFavoriteIcon(activeConv ? activeConv.is_favorite : false);
     favBtn.addEventListener('click', async () => {
       if (!activeConv) return;
       const targetState = !activeConv.is_favorite;
@@ -239,7 +248,7 @@ export async function initChatView(convId) {
       const typingIndicator = showTypingIndicator(board);
       
       const modeSelector = document.getElementById('chat-mode-selector');
-      const mode = modeSelector ? modeSelector.value : 'reflect';
+      const mode = modeSelector ? modeSelector.value : 'default';
 
       try {
         const result = await sendMessage(convId, content, mode);

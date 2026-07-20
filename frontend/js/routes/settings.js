@@ -163,6 +163,7 @@ export function initSettingsView() {
       
       state.user = result;
       applyTheme(selectedTheme);
+      localStorage.setItem('clarity_theme', selectedTheme);
       showToast('Preferences updated', 'success');
     } catch (err) {
       showToast(err.message, 'error');

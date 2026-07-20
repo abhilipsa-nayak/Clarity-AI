@@ -31,6 +31,7 @@ export function renderDashboard() {
             <span id="reflection-char-count" class="char-count-badge">0 characters</span>
             <div class="chat-mode-select-container dashboard-mode-select">
               <select id="dashboard-mode-selector" class="chat-mode-dropdown" aria-label="Choose chat response mode">
+                <option value="default" selected>✨ Normal</option>
                 <option value="reflect">💬 Reflect</option>
                 <option value="focus">🎯 Focus</option>
                 <option value="action">⚡ Action</option>
@@ -38,8 +39,8 @@ export function renderDashboard() {
             </div>
           </div>
           <button class="btn btn--primary" id="start-reflecting-btn">
-            <span>Start Reflecting</span>
-            <i data-lucide="compass" style="width: 16px; height: 16px;"></i>
+            <span>Start Chat</span>
+            <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
           </button>
         </div>
       </div>
@@ -108,8 +109,10 @@ export function initDashboard() {
       btn.innerHTML = `<span>Start Focusing</span><i data-lucide="target" style="width: 16px; height: 16px;"></i>`;
     } else if (mode === 'action') {
       btn.innerHTML = `<span>Take Action</span><i data-lucide="zap" style="width: 16px; height: 16px;"></i>`;
-    } else {
+    } else if (mode === 'reflect') {
       btn.innerHTML = `<span>Start Reflecting</span><i data-lucide="compass" style="width: 16px; height: 16px;"></i>`;
+    } else {
+      btn.innerHTML = `<span>Start Chat</span><i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>`;
     }
     lucide.createIcons();
   };
@@ -123,11 +126,11 @@ export function initDashboard() {
     btn.addEventListener('click', async () => {
       const promptText = input.value.trim();
       if (!promptText) {
-        showToast('Please type what is on your mind to start reflecting', 'warning');
+        showToast('Please type a message or topic to start a conversation', 'warning');
         return;
       }
 
-      const mode = modeSelector ? modeSelector.value : 'reflect';
+      const mode = modeSelector ? modeSelector.value : 'default';
 
       btn.disabled = true;
       btn.innerHTML = `<span>Structuring Session...</span>`;

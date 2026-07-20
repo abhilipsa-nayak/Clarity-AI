@@ -177,8 +177,9 @@ export function initLogin() {
       try {
         await login(email, password);
         state.token = localStorage.getItem('clarity_token');
-        state.user = await getProfile();
-        applyTheme(state.user.theme);
+        const userTheme = state.user?.theme || localStorage.getItem('clarity_theme') || 'dark';
+        applyTheme(userTheme);
+        localStorage.setItem('clarity_theme', userTheme);
         
         showToast(`Welcome back, ${state.user.name}!`, 'success');
         window.location.hash = '#/dashboard';
