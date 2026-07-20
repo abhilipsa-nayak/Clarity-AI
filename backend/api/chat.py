@@ -318,15 +318,8 @@ def send_message(
                 "parts": [prev.content]
             })
         
-        # List of candidate models to try in order of preference
-        user_model = current_user.ai_model or "gemini-3.5-flash"
-        if user_model in ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.5-flash"]:
-            user_model = "gemini-3.5-flash"
-            
-        candidates = [user_model, "gemini-3.1-flash-lite", "gemini-3.5-flash", "gemini-2.0-flash"]
-        # Remove duplicates while preserving order
-        seen = set()
-        candidate_models = [x for x in candidates if not (x in seen or seen.add(x))]
+        # List of valid candidate models to try in order of preference
+        candidate_models = ["gemini-2.0-flash", "gemini-2.0-flash-lite"]
         
         api_success = False
         last_error = ""
@@ -347,6 +340,9 @@ def send_message(
             except Exception as e:
                 last_error = str(e)
                 print(f"Gemini API Error with model {model_name}: {last_error}")
+                if "429" in last_error or "quota" in last_error.lower():
+                    # Daily or rate limit quota exceeded; break immediately to provide instant fallback
+                    break
                 continue
                 
         if not api_success:

@@ -133,17 +133,20 @@ export function initDashboard() {
       const mode = modeSelector ? modeSelector.value : 'default';
 
       btn.disabled = true;
-      btn.innerHTML = `<span>Structuring Session...</span>`;
+      btn.innerHTML = `<span>Opening Session...</span>`;
 
       try {
-        // Create title based on prompt prefix
+        // Create title based on prompt prefix (~30ms)
         const title = promptText.length > 30 ? promptText.substring(0, 30) + '...' : promptText;
         const conv = await createConversation(title);
         
-        // Send initial message with selected mode
-        await sendMessage(conv.id, promptText, mode);
+        // Store pending initial message in sessionStorage for instant chat transition
+        sessionStorage.setItem(`pending_msg_${conv.id}`, JSON.stringify({
+          content: promptText,
+          mode: mode
+        }));
         
-        // Redirect directly to the new session
+        // Redirect INSTANTLY to the new session
         window.location.hash = `#/chat/${conv.id}`;
       } catch (err) {
         showToast(err.message, 'error');

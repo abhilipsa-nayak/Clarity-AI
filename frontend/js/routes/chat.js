@@ -108,7 +108,40 @@ export async function initChatView(convId) {
     const messages = await getMessages(convId);
     board.innerHTML = '';
     
-    if (messages.length === 0) {
+    const pendingKey = `pending_msg_${convId}`;
+    const pendingRaw = sessionStorage.getItem(pendingKey);
+    
+    if (pendingRaw) {
+      sessionStorage.removeItem(pendingKey);
+      let pending = null;
+      try { pending = JSON.parse(pendingRaw); } catch (e) {}
+      
+      messages.forEach(m => appendMessage(board, m.role, m.content));
+      if (pending && pending.content) {
+        appendMessage(board, 'user', pending.content);
+        input.disabled = true;
+        sendBtn.disabled = true;
+        showTypingIndicator(board);
+        lucide.createIcons();
+        
+        // Asynchronously send initial message while user sees bouncing typing dots
+        sendMessage(convId, pending.content, pending.mode)
+          .then(result => {
+            hideTypingIndicator(board);
+            appendMessage(board, 'assistant', result.assistant_message.content);
+            lucide.createIcons();
+          })
+          .catch(err => {
+            hideTypingIndicator(board);
+            showToast(err.message, 'error');
+          })
+          .finally(() => {
+            input.disabled = false;
+            sendBtn.disabled = false;
+            input.focus();
+          });
+      }
+    } else if (messages.length === 0) {
       board.innerHTML = `
         <div class="empty-state">
           <div class="empty-state__icon"><i data-lucide="message-square"></i></div>
@@ -116,13 +149,11 @@ export async function initChatView(convId) {
           <p>Send a message below to start your conversation with Clarity AI.</p>
         </div>
       `;
+      lucide.createIcons();
     } else {
-      messages.forEach(msg => {
-        appendMessage(board, msg.role, msg.content);
-      });
+      messages.forEach(m => appendMessage(board, m.role, m.content));
+      lucide.createIcons();
     }
-    
-    lucide.createIcons();
 
   } catch (err) {
     showToast(err.message, 'error');
