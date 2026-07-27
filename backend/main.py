@@ -77,12 +77,15 @@ if os.path.exists(frontend_dir):
     app.mount("/js", StaticFiles(directory=js_path), name="js")
     app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
 
-    # Serve index.html at root route
+    # Serve index.html at root route (with Cache-Control disabled to ensure fresh loads)
     @app.get("/")
     async def serve_index():
         index_file = os.path.join(frontend_dir, "index.html")
         if os.path.exists(index_file):
-            return FileResponse(index_file)
+            return FileResponse(
+                index_file,
+                headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+            )
         return {"message": "Clarity AI Frontend is ready. Please write your index.html file."}
 else:
     @app.get("/")
