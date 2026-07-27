@@ -345,7 +345,8 @@ def send_message(
                 
         if not api_success:
             # Fallback to local structured coach response if all API models fail
-            ai_response_content = generate_mock_coach_response(user_content, active_mode) + f"\n\n*(Note: Running in offline/fallback mode due to API error: {last_error})*"
+            short_error = last_error.split("[{")[0].split("{\n")[0].strip()
+            ai_response_content = generate_mock_coach_response(user_content, active_mode) + f"\n\n*(Note: Running in offline/fallback mode due to API error: {short_error})*"
     else:
         # Fallback to local structured coach response if no key is set
         ai_response_content = generate_mock_coach_response(user_content, active_mode)
