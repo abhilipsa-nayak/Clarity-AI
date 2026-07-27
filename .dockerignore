@@ -1,0 +1,15 @@
+.git
+.gitignore
+.env
+.venv
+__pycache__
+*.pyc
+clarity.db
+Project_Report.docx
+Project_Report.md
+AWS_Deployment_Guide.md
+Concept_Note.pdf
+Clarity_AI_Presentation_v2.pptx
+uvicorn.log
+Dockerfile
+.dockerignore
