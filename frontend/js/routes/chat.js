@@ -83,7 +83,11 @@ export async function initChatView(convId) {
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        form.dispatchEvent(new Event('submit'));
+        if (typeof form.requestSubmit === 'function') {
+          form.requestSubmit();
+        } else {
+          form.dispatchEvent(new Event('submit'));
+        }
       }
     });
   }

@@ -15,7 +15,7 @@ router = APIRouter(prefix="/api/conversations", tags=["chat"])
 # Configure Gemini AI if key is set
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
+    genai.configure(api_key=GEMINI_API_KEY, transport='rest')
 
 SYSTEM_INSTRUCTIONS = {
     "default": (
@@ -326,7 +326,7 @@ def send_message(
         
         for model_name in candidate_models:
             try:
-                genai.configure(api_key=active_key)
+                genai.configure(api_key=active_key, transport='rest')
                 model = genai.GenerativeModel(
                     model_name=model_name,
                     system_instruction=SYSTEM_INSTRUCTIONS[active_mode]
