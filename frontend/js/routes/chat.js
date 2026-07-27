@@ -309,17 +309,5 @@ export async function initChatView(convId) {
     });
   }
 
-  // Icon switcher helper
-  function updateFavoriteIcon(isFav) {
-    if (!favBtn) return;
-    const star = favBtn.querySelector('svg') || favBtn.querySelector('i');
-    if (!star) return;
-    if (isFav) {
-      star.style.fill = 'var(--warning)';
-      star.style.color = 'var(--warning)';
-    } else {
-      star.style.fill = 'none';
-      star.style.color = 'var(--text-secondary)';
-    }
-  }
+
 }
