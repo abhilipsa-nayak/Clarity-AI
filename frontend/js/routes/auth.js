@@ -177,6 +177,7 @@ export function initLogin() {
       try {
         await login(email, password);
         state.token = localStorage.getItem('clarity_token');
+        state.user = await getProfile();
         const userTheme = state.user?.theme || localStorage.getItem('clarity_theme') || 'dark';
         applyTheme(userTheme);
         localStorage.setItem('clarity_theme', userTheme);
