@@ -340,12 +340,17 @@ def send_message(
             except Exception as e:
                 last_error = str(e)
                 print(f"Gemini API Error with model {model_name}: {last_error}")
-                # Break immediately on any error/timeout to provide instant fallback response
-                break
+                # Continue to next candidate model if this one fails
+                continue
                 
         if not api_success:
             # Fallback to local structured coach response if all API models fail
-            short_error = last_error.split("[{")[0].split("{\n")[0].strip()
+            if "429" in last_error or "quota" in last_error.lower():
+                short_error = "Gemini API rate limit reached (429). Please update your API key in settings or try again later."
+            elif "timeout" in last_error.lower() or "deadline" in last_error.lower():
+                short_error = "Connection timed out. Please check your network or try again."
+            else:
+                short_error = last_error.split("\n")[0].strip()
             ai_response_content = generate_mock_coach_response(user_content, active_mode) + f"\n\n*(Note: Running in offline/fallback mode due to API error: {short_error})*"
     else:
         # Fallback to local structured coach response if no key is set
