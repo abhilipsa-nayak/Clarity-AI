@@ -299,8 +299,8 @@ def send_message(
     env_path = os.path.join(os.path.dirname(__file__), "..", ".env")
     load_dotenv(dotenv_path=env_path)
     active_key = os.getenv("GEMINI_API_KEY")
-    
     if active_key:
+        print(f"DIAGNOSTICS - Active API Key in use: {active_key[:8]}...{active_key[-6:] if len(active_key) > 10 else ''}")
         # Build chat history for Gemini
         chat_history = []
         # Fetch previous messages (excluding the current one to append manually if needed, or use history)
