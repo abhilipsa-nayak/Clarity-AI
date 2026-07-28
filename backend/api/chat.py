@@ -319,7 +319,7 @@ def send_message(
             })
         
         # List of valid candidate models to try in order of preference
-        candidate_models = ["gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-1.5-flash"]
+        candidate_models = ["gemini-2.0-flash", "gemini-2.0-flash-lite"]
         
         api_success = False
         last_error = ""
